@@ -1,5 +1,7 @@
-if [ -z "$1" ] ; then
-  echo needs arg
+#!/bin/sh
+
+if [ $# -ne 1 ] ; then
+  echo "needs arg"
   exit 1
 fi
 

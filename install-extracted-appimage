@@ -1,3 +1,5 @@
+#!/bin/sh
+
 if [ $# -ne 2 ] ; then
   echo "needs 2 args"
   exit 1
@@ -12,7 +14,7 @@ appimage_path="$(realpath $1)"
 appimage_name="$(basename $appimage_path)"
 
 script_dir="$(realpath $0 | xargs dirname)"
-pushd "$script_dir"
+cd "$script_dir"
 
 mkdir -p src/
 cp "$appimage_path" .
@@ -23,9 +25,8 @@ rm "$appimage_name"
 mv squashfs-root "src/$2"
 
 mkdir -p bin
-echo "cd \"\$(dirname \"\$0\")\"" > "bin/$2"
+echo "#!/bin/sh" > "bin/$2"
+echo "cd \"\$(dirname \"\$0\")\"" >> "bin/$2"
 echo "../run-extracted-appimage \"$2\"" >> "bin/$2"
 
 chmod +x "bin/$2"
-
-popd
