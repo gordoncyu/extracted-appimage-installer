@@ -1,0 +1,31 @@
+if [ $# -ne 2 ] ; then
+  echo "needs 2 args"
+  exit 1
+fi
+
+if [ -d "src/$2" ] ; then
+  echo "already installed appimage with given name"
+  exit 1
+fi
+
+appimage_path="$(realpath $1)"
+appimage_name="$(basename $appimage_path)"
+
+script_dir="$(realpath $0 | xargs dirname)"
+pushd "$script_dir"
+
+mkdir -p src/
+cp "$appimage_path" .
+chmod +x "$appimage_name"
+"./$appimage_name" --appimage-extract
+rm "$appimage_name"
+
+mv squashfs-root "src/$2"
+
+mkdir -p bin
+echo "cd \"\$(dirname \"\$0\")\"" > "bin/$2"
+echo "../run-extracted-appimage \"$2\"" >> "bin/$2"
+
+chmod +x "bin/$2"
+
+popd

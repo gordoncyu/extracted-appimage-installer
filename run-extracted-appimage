@@ -1,0 +1,10 @@
+if [ -z "$1" ] ; then
+  echo needs arg
+  exit 1
+fi
+
+if [ -z "$APPDIR" ] ; then
+  APPDIR="$(realpath $0 | xargs dirname)/src/$1"
+fi 
+
+APPDIR="$APPDIR" $APPDIR/AppRun --no-sandbox
