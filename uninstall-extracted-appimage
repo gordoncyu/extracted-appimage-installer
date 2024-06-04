@@ -5,7 +5,7 @@ if [ $# -ne 1 ] ; then
   exit 1
 fi
 
-script_dir="$(realpath $0 | xargs dirname)"
+script_dir="$(realpath $0 | xargs -I{} dirname '{}')"
 
 if [ ! -d "$script_dir/src/$1" ] ; then
   echo "appimage named \"$1\" is not installed"

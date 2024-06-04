@@ -13,7 +13,7 @@ fi
 appimage_path="$(realpath $1)"
 appimage_name="$(basename $appimage_path)"
 
-script_dir="$(realpath $0 | xargs dirname)"
+script_dir="$(realpath $0 | xargs -I{} dirname '{}')"
 cd "$script_dir"
 
 mkdir -p src/
